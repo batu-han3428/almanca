@@ -49,13 +49,13 @@ const compareQuestionAnswerTwoStage = () =>{
             
             if(c === 1){
                 cevap2 = a.value.toLowerCase().substring(0,9)
-             }else if(c === 3){
+            }else if(c === 3){
                 cevap2 = a.value.toLowerCase().substring(0,13)
-             }else if(c === 5){
+            }else if(c === 5){
                 cevap2 = a.value.toLowerCase().substring(0,7)             
-             }else{
+            }else{
                 cevap2 = a.value.toLowerCase()
-             }
+            }
 
             if(cevap2 === almancaCumlelerTwoStage[c]){
                 dogru2++;
