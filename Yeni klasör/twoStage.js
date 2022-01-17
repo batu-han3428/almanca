@@ -1,22 +1,24 @@
 var almancaCumlelerTwoStage = [
-    "wie heibt du?",
+    "wie heibt du",
     "ich heibe batuhan",
-    "wie ist dein name?",
+    "wie ist dein name",
     "mein name ist batuhan",
-    "wer bist du?",
+    "wer bist du",
     "ich bin batuhan",
-    "wie alt bist du?",
+    "wie alt bist du",
     "ich bin zwanzig jahre alt",
-    "welcher tag ist heute?",
+    "welcher tag ist heute",
     "heute ist samstag",
-    "woher kommst du?",
+    "woher kommst du",
     "ich komme aus der türkei",
-    "wo wohnst du?",
+    "wo wohnst du",
     "ich wohne in istanbul",
-    "wo lebst du?",
+    "wo lebst du",
     "ich lebe in der türkei"
 ];
 
+var dogrular2 = [];
+var yanlislar2 = [];
 var answers = [];
 var dogru2 = 0;
 var yanlis = 0;
@@ -29,8 +31,7 @@ const compareQuestionAnswerTwoStage = () =>{
             a.parentElement.previousElementSibling.firstElementChild.className = 'card-text text-danger';
             if(a.parentElement.previousElementSibling.firstElementChild.textContent.indexOf("*") === -1){
                 a.parentElement.previousElementSibling.firstElementChild.textContent = "* "+a.parentElement.previousElementSibling.firstElementChild.textContent;
-            }
-           
+            }         
             bos = true;
         }else{           
             a.parentElement.previousElementSibling.firstElementChild.className = 'card-text text-primary';
@@ -49,7 +50,7 @@ const compareQuestionAnswerTwoStage = () =>{
                     dogru++;                   
                     document.querySelectorAll('#twoStageCard input').forEach((a)=>{        
                         if(a.value.toLowerCase() === r){
-                            tumDogrular.push(a.parentElement.previousElementSibling.firstElementChild.textContent+"-"+r);
+                            dogrular2.push(a.parentElement.previousElementSibling.firstElementChild.textContent+"-"+r);
                             a.parentElement.previousElementSibling.firstElementChild.className = 'card-text text-success'  
                         }
                     })      
@@ -77,7 +78,7 @@ const compareQuestionAnswerTwoStage = () =>{
 
         document.querySelectorAll('#twoStageCard span').forEach((a)=>{
             if(a.classList.contains('text-danger')){
-                tumYanlislar.push(a.textContent+"-"+a.parentElement.nextElementSibling.firstElementChild.value);
+                yanlislar2.push(a.textContent+"-"+a.parentElement.nextElementSibling.firstElementChild.value);
             }         
         })
         

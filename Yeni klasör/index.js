@@ -21,8 +21,8 @@ var almancaCumleler = [
     "tschüss"
 ];
 
-var tumDogrular = [];
-var tumYanlislar = [];
+var dogrular1 = [];
+var yanlislar1 = [];
 var sayilar = [];
 var healt = 3;
 var dogru = 0;
@@ -99,7 +99,7 @@ const compareQuestionAnswer = () =>{
         if(deger === -1){
             healt--;
             document.getElementById('can').textContent=healt;
-            tumYanlislar.push(document.getElementById('soru').textContent+"-"+document.getElementById('cevap').value);
+            yanlislar1.push(document.getElementById('soru').textContent+"-"+document.getElementById('cevap').value);
             if(healt === 0){
                 document.getElementById('anaCan').style.color='red';
                 document.getElementById('ok').disabled = true;
@@ -107,14 +107,25 @@ const compareQuestionAnswer = () =>{
             }
         }else{
             let deger1 = turkceCumleler.indexOf(document.getElementById('soru').textContent);
-            
+            let kontrol = false;
             if(deger === deger1){
-                tumDogrular.push(document.getElementById('soru').textContent+"-"+document.getElementById('cevap').value);
-                getQuestion();
+                yanlislar1.forEach(element => {
+                    let veri = element.split("-");
+
+                    if(veri[0] === document.getElementById('soru').textContent){
+                        kontrol = true;
+                    }
+                    
+                });
+
+                if(!kontrol){
+                    dogrular1.push(document.getElementById('soru').textContent+"-"+document.getElementById('cevap').value);
+                }     
+                 getQuestion();         
             }else{
                 healt--;
                 document.getElementById('can').textContent=healt;
-                tumYanlislar.push(document.getElementById('soru').textContent+"-"+document.getElementById('cevap').value);
+                yanlislar1.push(document.getElementById('soru').textContent+"-"+document.getElementById('cevap').value);
                 if(healt === 0){
                     document.getElementById('anaCan').style.color='red';
                     document.getElementById('ok').disabled = true;
@@ -150,74 +161,145 @@ document.getElementById('tryAgain').addEventListener('click',function(){window.l
 document.getElementById('nextStage').addEventListener('click',callStageTwo);
 document.getElementById('eye').style.display='none';
 document.getElementById('eye').addEventListener('click',function(){
+ 
     $("#modalSonuc").modal("hide");
-   
-    document.getElementById('contentDiv').className='col-md-12';
+
+    document.getElementById('contentDiv').className='col-md-12 pb-5';
 
     let anaHtml = `<div style='padding-top:40px;'>`;
 
-    let html =`<h5 class='display-5' style='margin-bottom:10vh;'>Doğrular:</h5>`;
-    let i=0;
+    anaHtml +=`
+        <h5 class='display-5' style='margin-bottom:5vh; background: -webkit-linear-gradient(#333, rgb(102, 226, 118) 60%, #333);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;'>Doğrular:${dogrular1.length+dogrular2.length}
+        </h5>
+    `;
 
-    for (let index = 0; index < Math.ceil(tumDogrular.length/3); index++) {
+    let altHtml = `<div id="confirms" style='overflow-y: scroll; max-height: 70vh; display:flex; flex-wrap:wrap;  text-align:center; width:80%; 
+    font-family:Century Gothic;  
+   '>`;
 
-            html += `
-            <ol style='max-width:100%' class="list-group list-group-numbered list-group-horizontal">
-        `;
+    if(dogrular1.length !== 0){
 
-        for (let index = 0; index < Math.floor(tumDogrular.length/3); index++) {
-            if(i+1 <=  tumDogrular.length){
-                let o =  tumDogrular[i].split("-");
-                i++
+        altHtml+=`<h5 class='display-6' style='width:100%; text-align:center; background: -webkit-linear-gradient(#333, rgb(102, 226, 118) 60%, #333);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;'>1. Aşama</h5>`;
 
-                html+=` 
-                    <li class="w-50 list-group-item d-flex justify-content-between align-items-start">
-                        <div class="ms-2 me-auto">
-                            <div class="fw-bold">${o[0]}</div>
-                            ${o[1]}
-                        </div>
-                        <span class="badge bg-success rounded-pill"><i class="bi bi-check-lg"></i></span>
-                    </li>
-                `;
-            }
+        for (let index = 0; index < dogrular1.length; index++) {
+        
+            let o =  dogrular1[index].split("-");           
+
+            altHtml+=` 
+                <div class='w-50 p-3 border' style='font-size:1.3rem; background: -webkit-linear-gradient(#333, rgb(102, 226, 118) 60%, #333);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent; '>${o[0]}</div>
+                        <div class='w-50 p-3 border' style='font-size:1.3rem;
+                background: -webkit-linear-gradient(#333, rgb(102, 226, 118) 60%, #333);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent; '>${o[1]}</div>
+            `;
+            
         }
-
-        html+=`</ol>`;
+        
+        altHtml+=`<div class='w-100 mb-5'></div>`;
     }
 
-    html+=`<h5 class='display-5' style='margin-bottom:10vh; margin-top:6vh;'>Yanlışlar:</h5>`;
+    
+    if(dogrular2.length !== 0){
 
-    let b=0;
+        altHtml+=`<h5 class='display-6' style='width:100%; text-align:center; background: -webkit-linear-gradient(#333, rgb(102, 226, 118) 60%, #333);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;'>2. Aşama</h5>`;
 
-    for (let index = 0; index < Math.ceil(tumYanlislar.length/3); index++) {
+        for (let index = 0; index < dogrular2.length; index++) {
+            
+            let o =  dogrular2[index].split("-");        
+        
+            altHtml+=` 
+                <div class='w-50 p-3 border' style='font-size:1.3rem; background: -webkit-linear-gradient(#333, rgb(102, 226, 118) 60%, #333);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent; '>${o[0]}</div>
+                            <div class='w-50 p-3 border' style='font-size:1.3rem;
+                background: -webkit-linear-gradient(#333, rgb(102, 226, 118) 60%, #333);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent; '>${o[1]}</div>
+            `;
+        
+        }
+    }
+  
 
-            html += `
-            <ol style='max-width:100%' class="list-group list-group-numbered list-group-horizontal">
-        `;
+    altHtml += `</div>`;
+    anaHtml+=altHtml;
 
-        for (let index = 0; index < Math.floor(tumYanlislar.length/3); index++) {
-            if(b+1 <=  tumYanlislar.length){
-                let o =  tumYanlislar[b].split("-");
-                b++
 
-                html+=` 
-                    <li class="w-50 list-group-item d-flex justify-content-between align-items-start">
-                        <div class="ms-2 me-auto">
-                            <div class="fw-bold">${o[0]}</div>
-                            ${o[1]}
-                        </div>
-                        <span class="badge bg-danger rounded-pill"><i class="bi bi-x-lg"></i></span>
-                    </li>
-                `;
-            }
+    anaHtml +=`<h5 class='display-5 mt-5' style='margin-bottom:5vh; background: -webkit-linear-gradient(#333, rgb(239, 31, 31) 60%, #333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;'>Yanlışlar:${yanlislar1.length+yanlislar2.length}</h5>
+    `;
+
+    let altHtml1 = `<div id="wrongs" style='overflow-y: scroll; max-height: 70vh; display:flex; flex-wrap:wrap;  text-align:center; width:80%; 
+    font-family:Century Gothic;  
+    '>`
+    ;
+
+    if(yanlislar1.length !== 0){
+
+        altHtml1+=`<h5 class='display-6' style='width:100%; text-align:center; background: -webkit-linear-gradient(#333, rgb(239, 31, 31) 60%, #333);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;'>1. Aşama</h5>`;
+
+
+        for (let index = 0; index < yanlislar1.length; index++) {
+                
+            let o =  yanlislar1[index].split("-");
+
+            altHtml1+=` 
+                <div class='w-50 p-3 border' style='font-size:1.3rem; background: -webkit-linear-gradient(#333, rgb(239, 31, 31) 60%, #333);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent; '>${o[0]}</div>
+                            <div class='w-50 p-3 border' style='font-size:1.3rem;
+                background: -webkit-linear-gradient(#333, rgb(239, 31, 31) 60%, #333);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent; '>${o[1]}</div>
+            `;
+            
         }
 
-        html+=`</ol>`;
+        altHtml1+=`<div class='w-100 mb-5'></div>`;
     }
 
-    anaHtml+=html;
+
+    if(yanlislar2.length !== 0){
+
+        altHtml1+=`<h5 class='display-6' style='width:100%; text-align:center; background: -webkit-linear-gradient(#333, rgb(239, 31, 31) 60%, #333);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;'>2. Aşama</h5>`;
+
+
+        for (let index = 0; index < yanlislar2.length; index++) {
+            
+            let o =  yanlislar2[index].split("-");
+
+            altHtml1+=` 
+                <div class='w-50 p-3 border' style='font-size:1.3rem; background: -webkit-linear-gradient(#333, rgb(239, 31, 31) 60%, #333);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent; '>${o[0]}</div>
+                            <div class='w-50 p-3 border' style='font-size:1.3rem;
+                background: -webkit-linear-gradient(#333, rgb(239, 31, 31) 60%, #333);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent; '>${o[1]}</div>
+            `;
+
+        }
+    }
+
+
+
+    altHtml1 += `</div>`;
+    anaHtml+=altHtml1;
     anaHtml+=` </div>`;
 
-
+    $('#indexCssLink').append('<link rel="stylesheet" href="results.css" type="text/css">');
     $('#contentDiv').html(anaHtml);
 })
