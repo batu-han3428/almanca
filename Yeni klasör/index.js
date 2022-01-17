@@ -27,6 +27,7 @@ var sayilar = [];
 var healt = 3;
 var dogru = 0;
 var yanlis1 = 0;
+var ayniSoruYanlis = 0;
 
 const getQuestion = () =>{
 
@@ -62,8 +63,14 @@ const showResults = () =>{
             yanlis1 = 1          
         }
         else{
-            dogru = 7
-            yanlis1 = 2
+
+            if(ayniSoruYanlis === 1){
+                dogru = 8
+                yanlis1 = 1
+            }else{
+                dogru = 7
+                yanlis1 = 2
+            }
         }
         document.getElementById('tryAgain').style.display = 'none'; 
         document.getElementById('durum').textContent=`Tebrikler. Doğru sayısı: ${dogru}`;
@@ -99,7 +106,20 @@ const compareQuestionAnswer = () =>{
         if(deger === -1){
             healt--;
             document.getElementById('can').textContent=healt;
-            yanlislar1.push(document.getElementById('soru').textContent+"-"+document.getElementById('cevap').value);
+
+            let kontrol1 = false;
+            yanlislar1.forEach(element => {
+                let veri1 = element.split("-");
+
+                if(veri1[0] === document.getElementById('soru').textContent){
+                    kontrol1 = true;
+                }
+                
+            });
+
+            if(!kontrol1){
+                yanlislar1.push(document.getElementById('soru').textContent+"-"+document.getElementById('cevap').value);
+            }
             if(healt === 0){
                 document.getElementById('anaCan').style.color='red';
                 document.getElementById('ok').disabled = true;
@@ -114,6 +134,7 @@ const compareQuestionAnswer = () =>{
 
                     if(veri[0] === document.getElementById('soru').textContent){
                         kontrol = true;
+                        ayniSoruYanlis++;
                     }
                     
                 });
@@ -125,7 +146,20 @@ const compareQuestionAnswer = () =>{
             }else{
                 healt--;
                 document.getElementById('can').textContent=healt;
-                yanlislar1.push(document.getElementById('soru').textContent+"-"+document.getElementById('cevap').value);
+
+                let kontrol2 = false;
+                yanlislar1.forEach(element => {
+                    let veri1 = element.split("-");
+
+                    if(veri1[0] === document.getElementById('soru').textContent){
+                        kontrol2 = true;
+                    }
+                
+                });
+                if(!kontrol2){
+                    yanlislar1.push(document.getElementById('soru').textContent+"-"+document.getElementById('cevap').value);
+                }
+                   
                 if(healt === 0){
                     document.getElementById('anaCan').style.color='red';
                     document.getElementById('ok').disabled = true;
